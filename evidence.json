@@ -1,0 +1,4075 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-14T17:44:55.827297+00:00",
+  "contract": "CONTRACT.md",
+  "repo": "https://github.com/pandas-dev/pandas/tree/v2.2.2",
+  "versions": {
+    "pandas": "2.2.2",
+    "numpy": "1.26.4"
+  },
+  "source_hashes": {
+    "pandas.core.frame": "9b813159606b62af03bfe76a7089da282d2d6091f308cf2f4d90dd0661a01105",
+    "pandas.core.reshape.merge": "2b7d736ab73adc8d5c125ef84d23cf213acb7697155409693ac94fd9d4cb614a",
+    "pandas.core.indexes.base": "2d50f8000608294d074d8bf14a9cdc489f4bdd32ba5b81f233bcd00c44c3ff24",
+    "pandas.core.dtypes.cast": "3e3ef65923fed1cb9da69247af98a2dff03f4b84e033478029e055f1c8bff377",
+    "pandas.core.dtypes.dtypes": "c373fa029841a5315406a7592e9277eb3887db761d306307d2bef92ac4ce6d8b",
+    "pandas.core.arrays.numeric": "955a52a6c1bfebacf640c1e084246861e7fa755249fd06407fdbe4a4b309a242"
+  },
+  "source_refs": {
+    "frame_merge": {
+      "module": "pandas.core.frame",
+      "line": 10815,
+      "end_line": 10846,
+      "snippet": "def merge("
+    },
+    "merge_entry": {
+      "module": "pandas.core.reshape.merge",
+      "line": 137,
+      "end_line": 184,
+      "snippet": "op = _MergeOperation("
+    },
+    "coerce_keys": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1364,
+      "end_line": 1552,
+      "snippet": "def _maybe_coerce_merge_keys(self) -> None:"
+    },
+    "coerce_infer_continue": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1474,
+      "end_line": 1478,
+      "snippet": "lib.infer_dtype(lk, skipna=False)"
+    },
+    "get_join_indexers": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1692,
+      "end_line": 1767,
+      "snippet": "def get_join_indexers("
+    },
+    "multi_key_factorize": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1734,
+      "end_line": 1744,
+      "snippet": "_factorize_keys(left_keys[n], right_keys[n], sort=sort)"
+    },
+    "path_selection": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1749,
+      "end_line": 1761,
+      "snippet": "get_join_indexers_non_unique("
+    },
+    "factorize_keys": {
+      "module": "pandas.core.reshape.merge",
+      "line": 2398,
+      "end_line": 2585,
+      "snippet": "def _factorize_keys("
+    },
+    "rizer_dtype": {
+      "module": "pandas.core.reshape.merge",
+      "line": 2588,
+      "end_line": 2622,
+      "snippet": "find_common_type([lk.dtype, rk.dtype])"
+    },
+    "validate_kwd": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1633,
+      "end_line": 1689,
+      "snippet": "MultiIndex.from_arrays(self.left_join_keys).is_unique"
+    },
+    "add_join_keys": {
+      "module": "pandas.core.reshape.merge",
+      "line": 1003,
+      "end_line": 1117,
+      "snippet": "result_dtype = find_common_type([lvals.dtype, rvals.dtype])"
+    },
+    "find_common_type": {
+      "module": "pandas.core.dtypes.cast",
+      "line": 1433,
+      "end_line": 1485,
+      "snippet": "return np_find_common_type(*types)"
+    },
+    "np_result_type": {
+      "module": "pandas.core.dtypes.cast",
+      "line": 1392,
+      "end_line": 1410,
+      "snippet": "common_dtype = np.result_type(*dtypes)"
+    },
+    "index_join": {
+      "module": "pandas.core.indexes.base",
+      "line": 4628,
+      "end_line": 4632,
+      "snippet": "self._find_common_type_compat(other)"
+    },
+    "index_compat": {
+      "module": "pandas.core.indexes.base",
+      "line": 6371,
+      "end_line": 6392,
+      "snippet": "self.dtype == \"uint64\""
+    },
+    "masked_common": {
+      "module": "pandas.core.dtypes.dtypes",
+      "line": 1590,
+      "end_line": 1607,
+      "snippet": "def _get_common_dtype("
+    }
+  },
+  "report_refs": [
+    "RE-1：正常回归与观察基线",
+    "RE-2：重排单因对照",
+    "RE-3：固定分区键单因对照",
+    "RE-4：大整数边界与误配",
+    "RE-5：缺失值与可空表示",
+    "RE-6：真重复与重复次数",
+    "RE-7：负数与无符号上界",
+    "RE-8：左连接保留与组合"
+  ],
+  "cases": [
+    {
+      "id": "C01_normal",
+      "report_ref": "RE-1：正常回归与观察基线",
+      "control_of": null,
+      "factor": "基准：小整数、int64/uint64、left、one_to_one",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L1",
+              1
+            ],
+            [
+              "L2",
+              2
+            ],
+            [
+              "L3",
+              3
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R3",
+              3
+            ],
+            [
+              "R2",
+              2
+            ],
+            [
+              "R4",
+              4
+            ]
+          ]
+        },
+        "how": "left",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L1",
+                1
+              ],
+              [
+                "L2",
+                2
+              ],
+              [
+                "L3",
+                3
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R3",
+                3
+              ],
+              [
+                "R2",
+                2
+              ],
+              [
+                "R4",
+                4
+              ]
+            ]
+          },
+          "how": "left",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              1,
+              2,
+              3
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              3,
+              2,
+              4
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L1",
+            "key": 1,
+            "right_id": null
+          },
+          {
+            "left_id": "L2",
+            "key": 2,
+            "right_id": "R2"
+          },
+          {
+            "left_id": "L3",
+            "key": 3,
+            "right_id": "R3"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L2",
+            "right_id": "R2",
+            "key": 2
+          },
+          {
+            "left_id": "L3",
+            "right_id": "R3",
+            "key": 3
+          },
+          {
+            "left_id": "L1",
+            "right_id": null,
+            "key": 1
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C02_empty_left",
+      "report_ref": "RE-1：正常回归与观察基线",
+      "control_of": null,
+      "factor": "空左表，可空类型 inner",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": []
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": []
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": []
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": []
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C03_empty_right_left",
+      "report_ref": "RE-1：正常回归与观察基线",
+      "control_of": null,
+      "factor": "空右表，可空类型 left，左侧保留",
+      "spec": {
+        "left": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "L0",
+              18446744073709551615
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "Int64",
+          "rows": []
+        },
+        "how": "left",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "L0",
+                18446744073709551615
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "rows": []
+          },
+          "how": "left",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "UInt64",
+            "keys": [
+              18446744073709551615
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "keys": []
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 18446744073709551615,
+            "right_id": null
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "UInt64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": null,
+            "key": 18446744073709551615
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C04_incident",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": "C05",
+      "factor": "公开事故：2^53/2^53+1，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740993,
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None), ('L1', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C05_incident_right_asc",
+      "report_ref": "RE-2：重排单因对照",
+      "control_of": null,
+      "factor": "与 C04 同值同侧，仅右表改为升序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C06_same_dtype_reordered",
+      "report_ref": "RE-2：重排单因对照",
+      "control_of": null,
+      "factor": "同 dtype int64，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740993,
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C07_partition_asc",
+      "report_ref": "RE-3：固定分区键单因对照",
+      "control_of": "C05",
+      "factor": "C05 加固定 part=7",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": true,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": true,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "part": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992,
+            "part": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993,
+            "part": 7
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, 7), ('L1', 'R0', 9007199254740993, 7)]"
+      ]
+    },
+    {
+      "id": "C08_partition_int64_control",
+      "report_ref": "RE-3：固定分区键单因对照",
+      "control_of": null,
+      "factor": "同 dtype int64，加固定 part=7",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": true,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": true,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "part": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992,
+            "part": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993,
+            "part": 7
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C09_safe_range_unsorted",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": null,
+      "factor": "安全整数边界 2^53-1 / 2^53，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740991
+            ],
+            [
+              "L1",
+              9007199254740992
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              9007199254740992
+            ],
+            [
+              "R0",
+              9007199254740991
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740991
+              ],
+              [
+                "L1",
+                9007199254740992
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                9007199254740992
+              ],
+              [
+                "R0",
+                9007199254740991
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740991,
+              9007199254740992
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992,
+              9007199254740991
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740991,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740991
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740992
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C10_boundary_false_match",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": "C09",
+      "factor": "2^53 与 2^53-1 之间出现 2^53+1，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740991
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740991
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740993,
+              9007199254740991
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": []
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None)]"
+      ]
+    },
+    {
+      "id": "C11_int64_max_collision",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": null,
+      "factor": "int64 上界与 uint64 2^63/2^63+1，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9223372036854775807
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              9223372036854775809
+            ],
+            [
+              "R0",
+              9223372036854775808
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9223372036854775807
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                9223372036854775809
+              ],
+              [
+                "R0",
+                9223372036854775808
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9223372036854775807
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9223372036854775809,
+              9223372036854775808
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9223372036854775807,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L0",
+            "key": 9223372036854775807,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": []
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R0', 9223372036854775807, None), ('L0', 'R1', 9223372036854775807, None)]"
+      ]
+    },
+    {
+      "id": "C12_power_of_two_exact",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": null,
+      "factor": "大但精确可表示的 2^60/2^61，混合 dtype，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              1152921504606846976
+            ],
+            [
+              "L1",
+              2305843009213693952
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              2305843009213693952
+            ],
+            [
+              "R0",
+              1152921504606846976
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                1152921504606846976
+              ],
+              [
+                "L1",
+                2305843009213693952
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                2305843009213693952
+              ],
+              [
+                "R0",
+                1152921504606846976
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              1152921504606846976,
+              2305843009213693952
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              2305843009213693952,
+              1152921504606846976
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 1152921504606846976,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 2305843009213693952,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 1152921504606846976
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 2305843009213693952
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C13_validate_not_protective",
+      "report_ref": "RE-4：大整数边界与误配",
+      "control_of": "C05",
+      "factor": "左右键各唯一，one_to_one，可空 UInt64 右表",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L1', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C14_nullable_small",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": null,
+      "factor": "可空 Int64/UInt64，小整数加空键",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "LN",
+              null
+            ],
+            [
+              "L0",
+              1
+            ],
+            [
+              "L1",
+              2
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "RN",
+              null
+            ],
+            [
+              "R0",
+              1
+            ],
+            [
+              "R1",
+              2
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "LN",
+                null
+              ],
+              [
+                "L0",
+                1
+              ],
+              [
+                "L1",
+                2
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "RN",
+                null
+              ],
+              [
+                "R0",
+                1
+              ],
+              [
+                "R1",
+                2
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              null,
+              1,
+              2
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              null,
+              1,
+              2
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "LN",
+            "key": null,
+            "right_id": "RN"
+          },
+          {
+            "left_id": "L0",
+            "key": 1,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 2,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "LN",
+            "right_id": "RN",
+            "key": null
+          },
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 1
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 2
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C15_nullable_large_desc",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": "C14",
+      "factor": "C14 换为大整数，右表降序（值域与顺序）",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              9007199254740993,
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None), ('L1', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C16_nullable_partition",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": "C15",
+      "factor": "C15 改为升序并加固定 part=7",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": true,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": true,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "part": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992,
+            "part": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993,
+            "part": 7
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, 7), ('L1', 'R0', 9007199254740993, 7)]"
+      ]
+    },
+    {
+      "id": "C17_null_no_false_match",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": null,
+      "factor": "空键只与空键匹配，可空类型",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "LN",
+              null
+            ],
+            [
+              "L0",
+              1
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "RV",
+              2
+            ],
+            [
+              "RN",
+              null
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "LN",
+                null
+              ],
+              [
+                "L0",
+                1
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "RV",
+                2
+              ],
+              [
+                "RN",
+                null
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              null,
+              1
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              2,
+              null
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "LN",
+            "key": null,
+            "right_id": "RN"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "LN",
+            "right_id": "RN",
+            "key": null
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C18_null_duplicate_validate",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": null,
+      "factor": "同侧两个空键 + one_to_one",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "N1",
+              null
+            ],
+            [
+              "N2",
+              null
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R0",
+              null
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "N1",
+                null
+              ],
+              [
+                "N2",
+                null
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R0",
+                null
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              null,
+              null
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              null
+            ]
+          }
+        },
+        "rows": [],
+        "dtypes": {},
+        "warnings": [],
+        "error": {
+          "type": "MergeError",
+          "message": "Merge keys are not unique in left dataset; not a one-to-one merge"
+        }
+      },
+      "expected": {
+        "kind": "error",
+        "error_type": "MergeError",
+        "reason": "duplicate exact key on left"
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C19_duplicates_small",
+      "report_ref": "RE-6：真重复与重复次数",
+      "control_of": null,
+      "factor": "小整数真重复，不校验唯一性",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              7
+            ],
+            [
+              "L1",
+              7
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              7
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                7
+              ],
+              [
+                "L1",
+                7
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                7
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              7,
+              7
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              7
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 7,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R0",
+            "key": 7
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C20_duplicates_small_validate",
+      "report_ref": "RE-6：真重复与重复次数",
+      "control_of": "C19",
+      "factor": "C19 改为 one_to_one",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              7
+            ],
+            [
+              "L1",
+              7
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              7
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                7
+              ],
+              [
+                "L1",
+                7
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                7
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              7,
+              7
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              7
+            ]
+          }
+        },
+        "rows": [],
+        "dtypes": {},
+        "warnings": [],
+        "error": {
+          "type": "MergeError",
+          "message": "Merge keys are not unique in left dataset; not a one-to-one merge"
+        }
+      },
+      "expected": {
+        "kind": "error",
+        "error_type": "MergeError",
+        "reason": "duplicate exact key on left"
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C21_duplicates_large_mixed",
+      "report_ref": "RE-6：真重复与重复次数",
+      "control_of": "C19",
+      "factor": "C19 换大整数与 int64/uint64 混用，升序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740992
+            ],
+            [
+              "L2",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R2",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740992
+              ],
+              [
+                "L2",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R2",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992,
+              9007199254740993,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R2"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740992,
+            "right_id": "R2"
+          },
+          {
+            "left_id": "L2",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L2",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L2",
+            "key": 9007199254740993,
+            "right_id": "R2"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L2",
+            "right_id": "R1",
+            "key": 9007199254740993
+          },
+          {
+            "left_id": "L2",
+            "right_id": "R2",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None), ('L0', 'R2', 9007199254740992, None), ('L1', 'R1', 9007199254740992, None), ('L1', 'R2', 9007199254740992, None), ('L2', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C22_duplicates_large_same_dtype",
+      "report_ref": "RE-6：真重复与重复次数",
+      "control_of": "C21",
+      "factor": "C21 改为同 dtype int64",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740992
+            ],
+            [
+              "L2",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R2",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740992
+              ],
+              [
+                "L2",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R2",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L2",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L2",
+            "key": 9007199254740993,
+            "right_id": "R2"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L2",
+            "right_id": "R1",
+            "key": 9007199254740993
+          },
+          {
+            "left_id": "L2",
+            "right_id": "R2",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C23_negative_mixed",
+      "report_ref": "RE-7：负数与无符号上界",
+      "control_of": null,
+      "factor": "负 int64 与 uint64 上界、0，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              -1
+            ],
+            [
+              "L1",
+              0
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              18446744073709551615
+            ],
+            [
+              "R1",
+              0
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                -1
+              ],
+              [
+                "L1",
+                0
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                18446744073709551615
+              ],
+              [
+                "R1",
+                0
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              -1,
+              0
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              18446744073709551615,
+              0
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L1",
+            "key": 0,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 0
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C24_uint64_top_same_dtype",
+      "report_ref": "RE-7：负数与无符号上界",
+      "control_of": null,
+      "factor": "uint64 上界同 dtype 匹配",
+      "spec": {
+        "left": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "L0",
+              18446744073709551615
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              18446744073709551615
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "L0",
+                18446744073709551615
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                18446744073709551615
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "uint64",
+            "keys": [
+              18446744073709551615
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              18446744073709551615
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 18446744073709551615,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "uint64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 18446744073709551615
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C25_uint64_vs_signed_no_wrap",
+      "report_ref": "RE-7：负数与无符号上界",
+      "control_of": null,
+      "factor": "uint64 上界对 int64 上界，不应回绕",
+      "spec": {
+        "left": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "L0",
+              18446744073709551615
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "R0",
+              9223372036854775807
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": null
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "L0",
+                18446744073709551615
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "R0",
+                9223372036854775807
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": null
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "uint64",
+            "keys": [
+              18446744073709551615
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "keys": [
+              9223372036854775807
+            ]
+          }
+        },
+        "rows": [],
+        "dtypes": {
+          "left_id": "object",
+          "key": "uint64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": []
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C26_signed_min_same_dtype",
+      "report_ref": "RE-7：负数与无符号上界",
+      "control_of": null,
+      "factor": "int64 下界同 dtype 匹配",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              -9223372036854775808
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "R0",
+              -9223372036854775808
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                -9223372036854775808
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "R0",
+                -9223372036854775808
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              -9223372036854775808
+            ]
+          },
+          "right": {
+            "dtype": "int64",
+            "keys": [
+              -9223372036854775808
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": -9223372036854775808,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": -9223372036854775808
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C27_left_join_ordered",
+      "report_ref": "RE-8：左连接保留与组合",
+      "control_of": null,
+      "factor": "left 未匹配左行保留，升序，无分区",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "left",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "left",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": null
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": null,
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C28_left_join_partition_misattach",
+      "report_ref": "RE-8：左连接保留与组合",
+      "control_of": "C27",
+      "factor": "C27 加固定 part=7",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "left",
+        "partition": true,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "left",
+          "partition": true,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "part": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992,
+            "part": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": null,
+            "key": 9007199254740993,
+            "part": 7
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: [('L1', None, 9007199254740993, 7)]",
+        "unexpected observed rows: [('L1', 'R0', 9007199254740993, 7)]"
+      ]
+    },
+    {
+      "id": "C29_nullable_asc_no_partition",
+      "report_ref": "RE-5：缺失值与可空表示",
+      "control_of": "C05",
+      "factor": "C05 改为可空 Int64/UInt64，两侧升序",
+      "spec": {
+        "left": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "UInt64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "Int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "UInt64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "Int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None), ('L1', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C30_left_join_right_desc",
+      "report_ref": "RE-8：左连接保留与组合",
+      "control_of": "C27",
+      "factor": "C27 仅把右表改为降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "uint64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "left",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "left",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "uint64",
+            "keys": [
+              9007199254740993,
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R1"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "right_id": "R0"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993
+          }
+        ]
+      },
+      "match": false,
+      "differences": [
+        "missing expected rows: []",
+        "unexpected observed rows: [('L0', 'R1', 9007199254740992, None), ('L1', 'R0', 9007199254740993, None)]"
+      ]
+    },
+    {
+      "id": "C31_same_signedness_partition",
+      "report_ref": "RE-3：固定分区键单因对照",
+      "control_of": "C08",
+      "factor": "C08 把右表改为可空同符号 Int64，加固定 part=7",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "R0",
+              9007199254740992
+            ],
+            [
+              "R1",
+              9007199254740993
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": true,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "R0",
+                9007199254740992
+              ],
+              [
+                "R1",
+                9007199254740993
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": true,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "keys": [
+              9007199254740992,
+              9007199254740993
+            ]
+          }
+        },
+        "rows": [
+          {
+            "left_id": "L0",
+            "key": 9007199254740992,
+            "part": 7,
+            "right_id": "R0"
+          },
+          {
+            "left_id": "L1",
+            "key": 9007199254740993,
+            "part": 7,
+            "right_id": "R1"
+          }
+        ],
+        "dtypes": {
+          "left_id": "object",
+          "key": "int64",
+          "part": "int64",
+          "right_id": "object"
+        },
+        "warnings": [],
+        "error": null
+      },
+      "expected": {
+        "kind": "rows",
+        "rows": [
+          {
+            "left_id": "L0",
+            "right_id": "R0",
+            "key": 9007199254740992,
+            "part": 7
+          },
+          {
+            "left_id": "L1",
+            "right_id": "R1",
+            "key": 9007199254740993,
+            "part": 7
+          }
+        ]
+      },
+      "match": true,
+      "differences": []
+    },
+    {
+      "id": "C32_same_signedness_duplicates",
+      "report_ref": "RE-6：真重复与重复次数",
+      "control_of": "C22",
+      "factor": "C22 把右表改为可空同符号 Int64，右表降序",
+      "spec": {
+        "left": {
+          "dtype": "int64",
+          "rows": [
+            [
+              "L0",
+              9007199254740992
+            ],
+            [
+              "L1",
+              9007199254740992
+            ],
+            [
+              "L2",
+              9007199254740993
+            ]
+          ]
+        },
+        "right": {
+          "dtype": "Int64",
+          "rows": [
+            [
+              "R1",
+              9007199254740993
+            ],
+            [
+              "R0",
+              9007199254740992
+            ]
+          ]
+        },
+        "how": "inner",
+        "partition": false,
+        "validate": "one_to_one"
+      },
+      "observation": {
+        "spec": {
+          "left": {
+            "dtype": "int64",
+            "rows": [
+              [
+                "L0",
+                9007199254740992
+              ],
+              [
+                "L1",
+                9007199254740992
+              ],
+              [
+                "L2",
+                9007199254740993
+              ]
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "rows": [
+              [
+                "R1",
+                9007199254740993
+              ],
+              [
+                "R0",
+                9007199254740992
+              ]
+            ]
+          },
+          "how": "inner",
+          "partition": false,
+          "validate": "one_to_one"
+        },
+        "versions": {
+          "pandas": "2.2.2",
+          "numpy": "1.26.4"
+        },
+        "inputs": {
+          "left": {
+            "dtype": "int64",
+            "keys": [
+              9007199254740992,
+              9007199254740992,
+              9007199254740993
+            ]
+          },
+          "right": {
+            "dtype": "Int64",
+            "keys": [
+              9007199254740993,
+              9007199254740992
+            ]
+          }
+        },
+        "rows": [],
+        "dtypes": {},
+        "warnings": [],
+        "error": {
+          "type": "MergeError",
+          "message": "Merge keys are not unique in left dataset; not a one-to-one merge"
+        }
+      },
+      "expected": {
+        "kind": "error",
+        "error_type": "MergeError",
+        "reason": "duplicate exact key on left"
+      },
+      "match": true,
+      "differences": []
+    }
+  ],
+  "summary": {
+    "cases": 32,
+    "match": 21,
+    "mismatch": 11
+  }
+}

@@ -11,13 +11,13 @@
   "verify": [
     "python3",
     "bootstrap.py",
-    "checks.py",
-    "normal"
+    "review_evidence.py",
+    "verify"
   ],
   "demo": [
     "python3",
     "bootstrap.py",
-    "probe.py",
-    "incident"
+    "review_evidence.py",
+    "demo"
   ]
 }

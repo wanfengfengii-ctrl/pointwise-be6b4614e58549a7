@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "kind": "cli",
+  "setup": [
+    [
+      "python3",
+      "bootstrap.py",
+      "--prepare"
+    ]
+  ],
+  "verify": [
+    "python3",
+    "bootstrap.py",
+    "checks.py",
+    "normal"
+  ],
+  "demo": [
+    "python3",
+    "bootstrap.py",
+    "probe.py",
+    "incident"
+  ]
+}
